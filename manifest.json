@@ -1,0 +1,12 @@
+{
+  "name": "Planner de Estudos ENEM 2026",
+  "short_name": "Planner ENEM",
+  "description": "Cronograma de estudos com tarefas e progresso do ENEM 2026.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f0f7fc",
+  "theme_color": "#082c5c",
+  "lang": "pt-BR",
+  "icons": []
+}
