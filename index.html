@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#082c5c"><meta name="description" content="Planner de estudos ENEM 2026 com cronograma, tarefas e acompanhamento de progresso.">
+<link rel="manifest" href="manifest.json"><title>Planner ENEM 2026</title>
+<style>
+:root{--navy:#082c5c;--blue:#087eb5;--sky:#e8f7ff;--yellow:#ffd52a;--green:#19a75b;--red:#ef3340;--ink:#123354;--muted:#64748b;--line:#d4e8f4}
+*{box-sizing:border-box}body{margin:0;background:#f0f7fc;color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 14px;font-weight:750}header{background:linear-gradient(120deg,#06224b,#087eb5);color:#fff;padding:24px max(18px,calc((100vw - 1180px)/2));}header .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}h1{margin:0;font-size:clamp(1.7rem,4vw,3rem);letter-spacing:-.04em}h1 span{color:var(--yellow)}header p{margin:8px 0 0;color:#d8f2ff}.wrap{max-width:1180px;margin:0 auto;padding:18px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-4px}.stat,.panel,.day{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px #0a37620b}.stat{padding:15px}.stat small{display:block;color:var(--muted);font-weight:700}.stat strong{font-size:1.7rem}.progress{height:9px;background:#dbeaf3;border-radius:99px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--green);width:0;transition:width .2s}.layout{display:grid;grid-template-columns:280px 1fr;gap:16px;margin-top:16px}.panel{padding:18px;align-self:start}.panel h2,.section-title{margin:0 0 12px;font-size:1.15rem}.field{display:block;margin:12px 0 6px;font-size:.88rem;font-weight:750}input[type=search],select{width:100%;padding:11px;border:1px solid #c5dce9;border-radius:10px;background:white;color:var(--ink)}.btn-primary{background:var(--yellow);color:#122f50}.btn-secondary{background:#e6f5ff;color:#064a78}.btn-dark{background:var(--navy);color:#fff}.btn-danger{background:#ffebed;color:#b51d2b}.button-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.note{font-size:.82rem;color:var(--muted);line-height:1.5}.days{display:grid;gap:12px}.day{overflow:hidden}.day-head{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f6fbff;border-bottom:1px solid var(--line)}.day-head h3{margin:0;font-size:1rem}.date{color:var(--blue);font-size:.8rem;font-weight:800}.tasks{padding:8px 16px}.task{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #edf4f8}.task:last-child{border:0}.task input{width:19px;height:19px;accent-color:var(--green);margin-top:2px;flex-shrink:0}.task label{flex:1;cursor:pointer}.task strong{display:block}.task small{display:block;color:var(--muted);margin-top:3px;line-height:1.45}.task.done label strong{text-decoration:line-through;color:#7a8b9a}.tag{display:inline-block;border-radius:999px;padding:4px 8px;font-size:.72rem;font-weight:800;background:#e7f5ff;color:#075780;margin:2px 4px 2px 0}.tag.red{background:#ffe8eb;color:#b51d2b}.tag.green{background:#e4f8eb;color:#13733c}.empty{padding:26px;text-align:center;color:var(--muted)}footer{text-align:center;padding:26px;color:var(--muted);font-size:.82rem}.hide{display:none!important}@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.panel{order:0}.days{order:1}}@media(max-width:420px){.wrap{padding:12px}.stat{padding:12px}.stat strong{font-size:1.4rem}.day-head{align-items:flex-start}.tasks{padding:6px 12px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><h1>PLANNER <span>ENEM 2026</span></h1><p>Foco • Disciplina • Resultado — marque o que concluir, onde estiver.</p></div><button id="installBtn" class="btn-primary hide">Instalar aplicativo</button></div></header>
+<main class="wrap">
+<section class="stats" aria-label="Resumo do progresso">
+<div class="stat"><small>Tarefas concluídas</small><strong id="doneCount">0</strong><div class="note">de <span id="allCount">0</span> tarefas</div></div>
+<div class="stat"><small>Progresso geral</small><strong id="percent">0%</strong><div class="progress"><span id="progressBar"></span></div></div>
+<div class="stat"><small>Redações</small><strong id="essayCount">0</strong><div class="note">treinos concluídos</div></div>
+<div class="stat"><small>Próxima etapa</small><strong id="nextDate" style="font-size:1.15rem">—</strong><div class="note" id="nextText">Marque uma tarefa para começar.</div></div>
+</section>
+<div class="layout">
+<aside class="panel"><h2>⚙️ Meu planner</h2>
+<label class="field" for="filter">Filtrar tarefas</label><select id="filter"><option value="all">Todas as tarefas</option><option value="pending">Pendentes</option><option value="done">Concluídas</option><option value="essay">Redação</option><option value="questions">Questões e simulados</option></select>
+<label class="field" for="search">Buscar conteúdo</label><input id="search" type="search" placeholder="Ex.: matemática, redação...">
+<div class="button-row"><button id="todayBtn" class="btn-secondary">Ver hoje</button><button id="resetFilters" class="btn-secondary">Limpar filtros</button></div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h2>💾 Seus dados</h2><p class="note">As marcações ficam salvas neste navegador. Use o backup para levar seu progresso para outro dispositivo.</p>
+<div class="button-row"><button id="exportBtn" class="btn-dark">Exportar backup</button><button id="importBtn" class="btn-secondary">Importar backup</button><input id="importFile" type="file" accept="application/json" class="hide"></div>
+<p id="backupStatus" class="note" aria-live="polite"></p>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h2>🎯 Rotina sugerida</h2><span class="tag">60 min conteúdo</span><span class="tag">50 min questões</span><span class="tag">60 min 2ª matéria</span><span class="tag">50 min prática</span><span class="tag red">40 min redação/revisão</span><p class="note">Faça pausas de 10 a 15 minutos. Se estiver fora de casa, você pode estudar pelo navegador do celular e marcar as tarefas quando terminar.</p>
+</aside>
+<section><div class="section-title" style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><span>📅 Cronograma diário</span><span class="note">19 de outubro a 15 de novembro de 2026</span></div><div id="days" class="days"></div></section>
+</div>
+</main><footer>Planner pessoal de estudos • ENEM 2026<br>O progresso fica no armazenamento local deste navegador. Faça backup regularmente.</footer>
+<script>
+const plan=[
+["2026-10-19","Matemática + Português","Operações, frações, regra de três; interpretação de textos","Conteúdo"],
+["2026-10-20","Biologia + História","Ecologia, cadeias alimentares; Brasil Colônia, escravidão, Independência","Conteúdo"],
+["2026-10-21","Química + Redação","Misturas, tabela periódica; estrutura da redação","Redação"],
+["2026-10-22","Geografia + Literatura","Globalização, urbanização; Modernismo, Romantismo","Conteúdo"],
+["2026-10-23","Física + Matemática","Movimento, unidades; gráficos, média, porcentagem","Questões"],
+["2026-10-24","Simulado + Redação","30 questões variadas; redação completa","Simulado"],
+["2026-10-25","Revisão leve","Erros da semana; interpretação de texto","Revisão"],
+["2026-10-26","Matemática + Biologia","Probabilidade, estatística; genética, evolução","Conteúdo"],
+["2026-10-27","Português + História","Gêneros textuais, figuras de linguagem; Era Vargas, Ditadura Militar","Conteúdo"],
+["2026-10-28","Química + Física","pH, soluções, estequiometria; eletricidade, energia","Conteúdo"],
+["2026-10-29","Geografia + Filosofia e Sociologia","Clima, migrações, energia; ética, cidadania, trabalho","Conteúdo"],
+["2026-10-30","Redação + Língua estrangeira","Estrutura da redação; inglês ou espanhol","Redação"],
+["2026-10-31","Simulado 1º dia","Linguagens e Humanas; redação","Simulado"],
+["2026-11-01","Revisão e descanso","Conteúdos mais difíceis; leitura e interpretação","Revisão"],
+["2026-11-02","Português + História","Interpretação, gêneros; Brasil Colônia, Vargas, Ditadura","Conteúdo"],
+["2026-11-03","Geografia + Filosofia e Sociologia","Globalização, ambiente; cidadania, trabalho, desigualdade","Conteúdo"],
+["2026-11-04","Redação + Literatura","Redação completa; Modernismo, Romantismo","Redação"],
+["2026-11-05","Simulado 1º dia","Linguagens e Humanas; redação","Simulado"],
+["2026-11-06","Revisão direcionada","Erros do 1º dia; estrutura da redação","Revisão"],
+["2026-11-07","Véspera da 1ª prova","Revisão leve (1–2h); trajeto e documentos","Revisão"],
+["2026-11-08","DIA DE PROVA — Linguagens e Humanas","Português, Literatura, língua estrangeira, História, Geografia, Filosofia/Sociologia e Redação","Prova"],
+["2026-11-09","Matemática","Porcentagem, regra de três, geometria","Conteúdo"],
+["2026-11-10","Biologia + Química","Ecologia, genética, soluções","Conteúdo"],
+["2026-11-11","Física + Matemática","Eletricidade, funções, gráficos","Conteúdo"],
+["2026-11-12","Simulado de Natureza","30–45 questões; revisar respostas erradas","Simulado"],
+["2026-11-13","Simulado de Matemática","30 questões; revisar estratégias","Simulado"],
+["2026-11-14","Revisão leve","Documentos, cartão de confirmação e trajeto; descansar","Revisão"],
+["2026-11-15","DIA DE PROVA — Matemática e Natureza","Matemática, Biologia, Física e Química","Prova"]
+];
+const extras=[
+["Conteúdo principal","Estude a teoria do tema do dia (60 min).","Estudo"],
+["Questões práticas","Resolva 10–15 questões e confira os comentários (50 min).","Questões"],
+["Segunda matéria","Estude a segunda matéria do dia (60 min).","Estudo"],
+["Prática ou revisão","Faça mais questões ou revise erros (50 min).","Questões"],
+["Redação / erros","Treine redação ou revise o caderno de erros (40 min).","Redação"]
+];
+const KEY="planner-enem-2026-v1";let state=loadState();
+function loadState(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch{return {}}}
+function saveState(){localStorage.setItem(KEY,JSON.stringify(state));renderStats()}
+function id(date,title){return date+"|"+title}
+function fmt(date){return new Date(date+"T12:00:00").toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"2-digit"})}
+function tasksFor(item){const [date,title,desc,type]=item;let tasks=[{title:"Estudar o conteúdo principal",desc:desc+" (60 min)",kind:"Estudo"},{title:"Resolver questões",desc:"Resolver 10–15 questões e corrigir os erros (50 min)",kind:"Questões"},{title:"Revisar a segunda matéria",desc:"Revisar os pontos principais do dia (60 min)",kind:"Estudo"}];if(type==="Redação"||title.includes("Redação"))tasks.push({title:"Treino de redação",desc:"Planejar ou escrever a redação e conferir a estrutura (40 min)",kind:"Redação"});else if(type==="Simulado"||type==="Prova")tasks.push({title:type==="Prova"?"Conferir preparação para a prova":"Fazer simulado e corrigir erros",desc:type==="Prova"?"Documentos, cartão de confirmação, água e trajeto.":"Faça o simulado com tempo marcado e anote os erros.",kind:"Simulado"});else tasks.push({title:"Redação ou caderno de erros",desc:"Treinar um parágrafo ou revisar os erros (40 min)",kind:"Redação"});return tasks}
+function render(){const filter=document.querySelector("#filter").value,query=document.querySelector("#search").value.toLowerCase().trim(),root=document.querySelector("#days");root.innerHTML="";let shown=0;
+plan.forEach(item=>{const [date,title,desc,type]=item;let tasks=tasksFor(item).map(t=>({...t,id:id(date,t.title),done:!!state[id(date,t.title)]}));tasks=tasks.filter(t=>(filter==="all"||(filter==="pending"&&!t.done)||(filter==="done"&&t.done)||(filter==="essay"&&t.kind==="Redação")||(filter==="questions"&&(t.kind==="Questões"||t.kind==="Simulado")))&&(!query||(title+" "+desc+" "+t.title+" "+t.desc).toLowerCase().includes(query)));if(!tasks.length)return;shown++;const card=document.createElement("article");card.className="day";const head=document.createElement("div");head.className="day-head";head.innerHTML='<div><div class="date">'+fmt(date)+'</div><h3>'+escapeHtml(title)+'</h3><div class="note">'+escapeHtml(desc)+'</div></div><span class="tag '+(type==="Redação"||type==="Prova"?"red":type==="Simulado"?"green":"")+'">'+escapeHtml(type)+'</span>';card.appendChild(head);const list=document.createElement("div");list.className="tasks";tasks.forEach(t=>{const row=document.createElement("div");row.className="task"+(t.done?" done":"");const cb=document.createElement("input");cb.type="checkbox";cb.checked=t.done;cb.id="t-"+encodeURIComponent(t.id);cb.addEventListener("change",()=>{state[t.id]=cb.checked;saveState();render()});const label=document.createElement("label");label.htmlFor=cb.id;label.innerHTML='<strong>'+escapeHtml(t.title)+'</strong><small>'+escapeHtml(t.desc)+'</small>';row.append(cb,label);list.appendChild(row)});card.appendChild(list);root.appendChild(card)});if(!shown)root.innerHTML='<div class="panel empty">Nenhuma tarefa encontrada com esses filtros.</div>';renderStats()}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function allTasks(){return plan.flatMap(p=>tasksFor(p).map(t=>({date:p[0],...t})))}
+function renderStats(){const ts=allTasks(),done=ts.filter(t=>state[t.id]).length;document.querySelector("#doneCount").textContent=done;document.querySelector("#allCount").textContent=ts.length;document.querySelector("#percent").textContent=Math.round(done/ts.length*100)+"%";document.querySelector("#progressBar").style.width=(done/ts.length*100)+"%";document.querySelector("#essayCount").textContent=ts.filter(t=>t.kind==="Redação"&&state[t.id]).length;const today=new Date().toLocaleDateString("en-CA");const next=ts.find(t=>!state[t.id]&&t.date>=today);document.querySelector("#nextDate").textContent=next?new Date(next.date+"T12:00:00").toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}):"Tudo feito!";document.querySelector("#nextText").textContent=next?next.title:"Você concluiu todas as tarefas cadastradas."}
+document.querySelector("#filter").addEventListener("change",render);document.querySelector("#search").addEventListener("input",render);document.querySelector("#resetFilters").addEventListener("click",()=>{document.querySelector("#filter").value="all";document.querySelector("#search").value="";render()});document.querySelector("#todayBtn").addEventListener("click",()=>{const today=new Date().toLocaleDateString("en-CA");document.querySelector("#search").value="";document.querySelector("#filter").value="all";render();const cards=[...document.querySelectorAll(".day")];const found=plan.findIndex(p=>p[0]===today);if(found>=0&&cards[found])cards[found].scrollIntoView({behavior:"smooth",block:"start"});else document.querySelector("#backupStatus").textContent="Hoje não há data cadastrada no cronograma."});
+document.querySelector("#exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({app:"Planner ENEM 2026",exportadoEm:new Date().toISOString(),state},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="backup-planner-enem-2026.json";a.click();URL.revokeObjectURL(a.href);document.querySelector("#backupStatus").textContent="Backup exportado. Guarde o arquivo para restaurar seu progresso."});
+document.querySelector("#importBtn").addEventListener("click",()=>document.querySelector("#importFile").click());document.querySelector("#importFile").addEventListener("change",async e=>{try{const f=e.target.files[0];if(!f)return;const data=JSON.parse(await f.text());const incoming=data.state||data;if(!incoming||typeof incoming!=="object"||Array.isArray(incoming))throw Error("invalid");state=incoming;saveState();render();document.querySelector("#backupStatus").textContent="Backup importado com sucesso."}catch{document.querySelector("#backupStatus").textContent="Não foi possível importar. Escolha um backup JSON válido."}e.target.value=""});
+let installPrompt;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;document.querySelector("#installBtn").classList.remove("hide")});document.querySelector("#installBtn").addEventListener("click",async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;document.querySelector("#installBtn").classList.add("hide")}});
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));render();
+</script></body></html>
