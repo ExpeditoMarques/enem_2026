@@ -1,4 +1,4 @@
-const CACHE = "planner-enem-2026-v1";
+const CACHE = "planner-enem-2026-v2";
 const ASSETS = ["./", "./index.html", "./manifest.json"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
